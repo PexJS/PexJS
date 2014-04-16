@@ -42,10 +42,6 @@ Pex Documentation Project is [here](https://github.com/PexJS/PexJS-Documentation
 
 Pex Tutorial can be found at [this site](https://docs.mobage.com/public/pex/tutorial/index.html).
 
-News and Website
-----------------
-All about Pex can be found on our [website](https://docs.mobage.com/public/pex/).
-
 
 Unofficial supports available on Twitter [@uupaa](https://twitter.com/uupaa) [@tkihira](https://twitter.com/tkihira).  
 非公式のサポートをTwitter上で提供しております [@uupaa](https://twitter.com/uupaa) [@tkihira](https://twitter.com/tkihira)

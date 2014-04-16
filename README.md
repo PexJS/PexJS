@@ -5,16 +5,24 @@ You can download pre-built Pex from bin directory.
 
 ### To build:
 
+    npm install -g jake
     npm install
     git submodule update --init --recursive
-    jake bin
-
+    jake
 
 ### To develop Pex:
 
     jake
 
 You can get HTML files in "output" directory for each SWF in target directory without obfuscating.
+
+If you want to check your output, set output files at your local web server.
+Or try following command:
+
+    jake server
+
+and open http://localhost:8080/ from your browser.
+
 
 To continuous build, try
 

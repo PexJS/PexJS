@@ -5,6 +5,9 @@ var util = require("util");
 var exec = require("child_process").exec;
 var uglify = require("./build/tools/UglifyJS/uglify-js");
 
+var http = require("http");
+var url = require("url");
+
 var copyright = "\"Pex: https://github.com/PexJS/PexJS\"\n";
 
 var sourceDirectory = "src";
@@ -512,4 +515,35 @@ task("bin", [], function() {
 			fs.chmodSync(binParser, "0755");
 		}, 100);
 	});
+});
+
+desc("run server");
+task("server", [], function() {
+	http.createServer(function(request, response) {
+		var uri = url.parse(request.url).pathname;
+		var filename = path.join(outputDirectory, uri);
+		fs.exists(filename, function(exists) {
+			if(!exists) {
+				response.writeHead(404, {"Content-Type": "text/plain"});
+				response.write("404\n");
+				response.end();
+				return;
+			}
+			if(fs.statSync(filename).isDirectory()) {
+				filename = path.join(filename, 'index.html');
+			}
+			fs.readFile(filename, "binary", function(err, file) {
+				if(err) {
+					response.writeHead(500, {"Content-Type": "text/plain"});
+					response.write(err + "\n");
+					response.end();
+				} else {
+					response.writeHead(200);
+					response.write(file, "binary");
+					response.end();
+				}
+			});
+		});
+	}).listen(8080);
+	console.log("Server started at port 8080");
 });

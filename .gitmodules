@@ -1,0 +1,3 @@
+[submodule "build/tools/UglifyJS"]
+	path = build/tools/UglifyJS
+	url = git@github.com:PexJS/UglifyJS.git

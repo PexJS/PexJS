@@ -1,0 +1,19 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript" />
+	<title><%=basename%> - Pex</title>
+
+	<script type="text/javascript" src="../js/<%=pexname%>"></script>
+	<script type="text/javascript">
+	window.onload = function() {
+		var option = <%-(option?option:"{}")%>;
+		var pex = new Pex("<%=basename%>.swf", "container", option);
+	};
+	</script>
+</head>
+<body style="background-color:#112233">
+<div id="container"></div>
+</body>
+</html>

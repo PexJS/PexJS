@@ -1,0 +1,21 @@
+{
+  "name":        "Pex",
+  "version":     "0.0.1",
+  "description": "Post ExGame",
+  "author": [
+      {
+        "name":  "Kihira, Takuo",
+        "email": "kihira.takuo@dena.jp"
+      }
+  ],
+  "devDependencies": {
+    "jake": "*",
+    "ejs": "*"
+  },
+  "engines": {
+    "node": ">= 0.6.0"
+  },
+  "scripts": {
+    "start": "node node_modules/jake/bin/cli.js watch"
+  }
+}

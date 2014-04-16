@@ -1,0 +1,726 @@
+#0: not identifier
+#10: not identifier
+#11: not identifier
+#129: not identifier
+#12: not identifier
+#131: not identifier
+#138: not identifier
+#139: not identifier
+#140: not identifier
+#141: not identifier
+#150: not identifier
+#153: not identifier
+#154: not identifier
+#157: not identifier
+#158: not identifier
+#159: not identifier
+#1: not identifier
+#20: not identifier
+#21: not identifier
+#22: not identifier
+#26: not identifier
+#28: not identifier
+#2: not identifier
+#32: not identifier
+#33: not identifier
+#34: not identifier
+#35: not identifier
+#36: not identifier
+#37: not identifier
+#39: not identifier
+#43: not identifier
+#46: not identifier
+#48: not identifier
+#4: not identifier
+#6: not identifier
+#7: not identifier
+#8: not identifier
+#9: not identifier
+#Date: used in GLOBAL_OBJECTS
+#MAX_VALUE: used in Number
+#Math: used in GLOBAL_OBJECTS
+#NEGATIVE_INFINITY: used in Number
+#NaN: used in GLOBAL_OBJECTS, Number
+#PEX_VERSION: used in version check for parse_swf
+#PI: used in Math
+#POSITIVE_INFINITY: used in Number
+#Pex: used in Pex
+#String: used in GLOBAL_OBJECTS
+#XMLHttpRequest: used in GLOBAL_OBJECTS
+#__defineGetter__: used in Object_Method
+#a: length of token is less than 2
+#abs: used in Math
+#action: used in HTMLFormElement
+#addColorStop: used in CanvasGradient
+#addEventListener: used in XMLHttpRequest
+#align: used in Image
+#all: used in option (shapeDetail)
+#appendChild: used in DOM
+#apply: used in Function_Method
+#atan2: used in Math
+#b: length of token is less than 2
+#backgroundColor: used in CSSStyleDeclaration
+#beginPath: used in CanvasRenderingContext2D
+#binary: used in Buffer
+#cache: used in option (shapeDetail)
+#cacheColoredImage: used in option
+#call: used in Function_Method
+#canvas: used in Canvas, CanvasRenderingContext2D
+#ceil: used in Math
+#charAt: used in String_Method
+#charCodeAt: used in String_Method
+#children: used in Image, Canvas
+#clearRect: used in CanvasRenderingContext2D
+#clientX: used in Touch
+#clientY: used in Touch
+#clip: used in CanvasRenderingContext2D
+#closePath: used in CanvasRenderingContext2D
+#concat: used in String_Method, Array_Method
+#console: used in GLOBAL_OBJECTS
+#constructor: used in Object_Method, Number_Method, String_Method, Function_Method, Array_Method, Date_Method, RegExp_Method, XMLHttpRequest, CanvasRenderingContext2D
+#cos: used in Math
+#createElement: used in document
+#createImageData: used in CanvasRenderingContext2D
+#createLinearGradient: used in CanvasRenderingContext2D
+#createPattern: used in CanvasRenderingContext2D
+#createRadialGradient: used in CanvasRenderingContext2D
+#data: used in ImageData
+#debug: used in option
+#decodeURI: used in GLOBAL_OBJECTS
+#delayEval: used in option
+#destroy: used in API
+#disableFrameSkip: used in option
+#document: used in document
+#drawImage: used in CanvasRenderingContext2D
+#e: length of token is less than 2
+#enableButton: used in option
+#enableTouch: used in option
+#encodeURI: used in GLOBAL_OBJECTS
+#end: used in textAlign
+#engineStart: used in API
+#engineStop: used in API
+#error: used in console
+#eval: used in GLOBAL_OBJECTS
+#false: used in KEYWORDS_ATOM
+#fill: used in CanvasRenderingContext2D
+#fillRect: used in CanvasRenderingContext2D
+#fillStyle: used in CanvasRenderingContext2D
+#fillText: used in CanvasRenderingContext2D
+#fixRatio: used in option
+#floor: used in Math
+#font: used in CanvasRenderingContext2D
+#form: used in HTMLFormElement
+#fps: used in option
+#frameCallback: used in option
+#frameRect: used in option
+#fromCharCode: used in String
+#getAPI: used in Pex
+#getContext: used in Canvas
+#getElementById: used in document
+#getImageData: used in CanvasRenderingContext2D
+#getProperty: used in API
+#getTime: used in Date_Method
+#getVariable: used in API
+#globalAlpha: used in CanvasRenderingContext2D
+#globalCompositeOperation: used in CanvasRenderingContext2D
+#gotoAndStop: used in option
+#gotoFrame: used in API
+#hasOwnProperty: used in Object_Method
+#height: used in Image, Canvas, option
+#href: used in HTMLLinkElement
+#i: length of token is less than 2
+#id: used in Image, Canvas
+#img: used in HTLMImageElement
+#indexOf: used in String_Method, Array_Method
+#innerHTML: used in Image, Canvas
+#input: used in RegExp, HTMLInputElement
+#isNaN: used in GLOBAL_OBJECTS
+#join: used in Array_Method
+#keyCode: used in KeyboardEvent
+#keyDown: used in API
+#length: used in Object, Number, String, String_Method, Function_Method, Array_Method, Date, RegExp, XMLHttpRequest
+#lineCap: used in CanvasRenderingContext2D
+#lineTo: used in CanvasRenderingContext2D
+#lineWidth: used in CanvasRenderingContext2D
+#location: used in Location
+#log: used in Math, console
+#m: length of token is less than 2
+#map: used in Array_Method
+#max: used in Math
+#method: used in option (shapeDetail)
+#min: used in Math
+#moveTo: used in CanvasRenderingContext2D
+#multiline: used in RegExp, RegExp_Member
+#n: length of token is less than 2
+#name: used in Object, Number, String, Function_Method, Date, RegExp, XMLHttpRequest, Image
+#nodeType: used in Image, Canvas
+#now: used in Date
+#null: used in KEYWORDS_ATOM
+#offsetLeft: used in Image, Canvas
+#offsetTop: used in Image, Canvas
+#onload: used in XMLHttpRequest, Image, Canvas
+#onprogress: used in XMLHttpRequest
+#onreadystatechange: used in XMLHttpRequest
+#ontouchstart: used in document
+#open: used in XMLHttpRequest
+#origin: used in option
+#overrideMimeType: used in XMLHttpRequest
+#p: length of token is less than 2
+#parseFloat: used in GLOBAL_OBJECTS
+#parseInt: used in GLOBAL_OBJECTS
+#partialDraw: used in option
+#play: used in API
+#pop: used in Array_Method
+#pow: used in Math
+#preload: used in option (shapeDetail)
+#preventDefault: used in Event
+#prototype: used in Object, Number, String, Date, RegExp, XMLHttpRequest
+#push: used in Array_Method
+#putImageData: used in CanvasRenderingContext2D
+#quadraticCurveTo: used in CanvasRenderingContext2D
+#random: used in Math
+#ready: used in API
+#readyState: used in XMLHttpRequest
+#rect: used in CanvasRenderingContext2D
+#replace: used in String_Method
+#responseText: used in XMLHttpRequest
+#restore: used in CanvasRenderingContext2D
+#round: used in Math
+#save: used in CanvasRenderingContext2D
+#scale: used in CanvasRenderingContext2D
+#send: used in XMLHttpRequest
+#setRequestHeader: used in XMLHttpRequest
+#setVariable: used in API
+#shapeDetail: used in option
+#shift: used in Array_Method
+#sin: used in Math
+#slice: used in String_Method, Array_Method
+#sort: used in Array_Method
+#splice: used in Array_Method
+#split: used in String_Method
+#sqrt: used in Math
+#src: used in Image
+#start: used in textAlign
+#status: used in XMLHttpRequest
+#stop: used in API
+#stopAll: used in API
+#stopOnStart: used in option
+#stringify: used in JSON
+#stroke: used in CanvasRenderingContext2D
+#strokeStyle: used in CanvasRenderingContext2D
+#style: used in Image, Canvas
+#submit: used in HTMLFormElement
+#substr: used in String_Method
+#substring: used in String_Method
+#t: length of token is less than 2
+#tagName: used in Image, Canvas
+#test: used in RegExp_Method
+#textAlign: used in CanvasRenderingContext2D
+#textBaseline: used in CanvasRenderingContext2D
+#time: used in console
+#toLowerCase: used in String_Method
+#toString: used in Object_Method, Number_Method, String_Method, Function_Method, Array_Method, Date_Method, RegExp_Method, XMLHttpRequest
+#toUpperCase: used in String_Method
+#touches: used in TouchEvent
+#transform: used in CanvasRenderingContext2D
+#transparent: used in option
+#true: used in KEYWORDS_ATOM
+#unescape: used in GLOBAL_OBJECTS
+#unshift: used in Array_Method
+#userAgent: used in Navigator
+#value: used in Object_prpperty_descriptor
+#warn: used in console
+#width: used in Image, Canvas, option
+#x: used in Image
+#y: used in Image
+#zoom: used in CSSStyleDeclaration
+BMAX
+Down
+EngineLogE
+Hit
+N_MAX
+Over
+Profiler
+RawDeflate
+TypeActionAdd
+TypeActionAnd
+TypeActionAsciiToChar
+TypeActionCall
+TypeActionCharToAscii
+TypeActionCloneSprite
+TypeActionDivide
+TypeActionEndDrag
+TypeActionEquals
+TypeActionFSCommand2
+TypeActionGetProperty
+TypeActionGetTime
+TypeActionGetURL
+TypeActionGetURL2
+TypeActionGetVariable
+TypeActionGoToLabel
+TypeActionGotoFrame
+TypeActionGotoFrame2
+TypeActionIf
+TypeActionJump
+TypeActionLess
+TypeActionMBAsciiToChar
+TypeActionMBCharToAscii
+TypeActionMBStringExtract
+TypeActionMBStringLength
+TypeActionMultiply
+TypeActionNextFrame
+TypeActionNot
+TypeActionOr
+TypeActionPlay
+TypeActionPop
+TypeActionPreviousFrame
+TypeActionPush
+TypeActionPushDuplicate
+TypeActionRandomNumber
+TypeActionRemoveSprite
+TypeActionSetProperty
+TypeActionSetTarget
+TypeActionSetTarget2
+TypeActionSetVariable
+TypeActionStartDrag
+TypeActionStop
+TypeActionStopSounds
+TypeActionStringAdd
+TypeActionStringEquals
+TypeActionStringExtract
+TypeActionStringLength
+TypeActionStringLess
+TypeActionSubtract
+TypeActionToInteger
+TypeActionToggleQuality
+TypeActionTrace
+TypeActionWaitForFrame
+TypeActionWaitForFrame2
+TypeClippedBitmapFill
+TypeCurve
+TypeLinearGradientFill
+TypeNonSmoothedClipedBitmapFill
+TypeNonSmoothedRepeatingBitmapFill
+TypeRadialGradientFill
+TypeRepeatingBitmapFill
+TypeSolidFill
+TypeStraight
+TypeStyleChange
+TypeTagDefineBits
+TypeTagDefineBitsJPEG2
+TypeTagDefineBitsJPEG3
+TypeTagDefineBitsLossless
+TypeTagDefineBitsLossless2
+TypeTagDefineButton
+TypeTagDefineButton2
+TypeTagDefineEditText
+TypeTagDefineFont
+TypeTagDefineFont2
+TypeTagDefineMorphShape
+TypeTagDefineShape
+TypeTagDefineShape2
+TypeTagDefineShape3
+TypeTagDefineSprite
+TypeTagDefineText
+TypeTagDefineText2
+TypeTagDoAction
+TypeTagEnd
+TypeTagFrameLabel
+TypeTagJPEGTables
+TypeTagPlaceObject
+TypeTagPlaceObject2
+TypeTagRemoveObject2
+TypeTagSetBackgroundColor
+TypeTagShowFrame
+Up
+__instance__
+_alpha
+_currentframe
+_droptarget
+_focusrect
+_framesloaded
+_height
+_highquality
+_name
+_rotate0
+_rotate1
+_rotation
+_rotation2
+_sc
+_scaleX
+_scaleY
+_target
+_totalframes
+_url
+_visible
+_width
+_x
+_xscale
+_y
+_yscale
+absoluteName
+absolutePlacementId
+actionList
+actionStack
+actions
+actualTotalFrames
+addAction
+addCallback
+addDirtyRect
+advance
+alphaCanvas
+analyze
+analyzeButton
+analyzeMovieClip
+analyzedLength
+analyzser
+api
+args
+arrayToBase64String
+ax
+ay
+base
+before
+bgColor
+bitmapId
+born
+bornIdList
+bounds
+branchOffset
+buttonActionMap
+buttonActions
+buttonCharacters
+buttonList
+byteLength
+byteSubstring
+cachedClippingFunction
+cachedFunction
+cachedImageInfo
+cachedMethod
+cachedRenderedItems
+calcScale
+calcScaleAndRotation
+callInfo
+changeColor
+characterId
+characters
+checked
+childrenIdMap
+childrenMap
+childrenModified
+clearKeyDown
+clearMouseState
+clipDepth
+clippingId
+clone
+cloned
+code
+codeTable
+color
+colorTransform
+compareRenderItem
+completed
+container
+context
+contextStack
+correctJpegImageData
+count
+counters
+createDirtyRects
+createImageFromJpeg
+createImageFromJpegAndAlpha
+createImageFromJpegData
+createImageFromJpegTableAndBits
+createImageFromLossless
+createObject
+ctx
+currentContext
+currentMC
+currentXY
+customBegin
+customEnd
+cx
+cxform
+cxformList
+cy
+dataStore
+dataStoreProgress
+deadIdList
+dealBody
+dealHeader
+def
+depth
+dest
+destId
+devide20
+dictionary
+dirtyRects
+displayList
+drawScale
+drawStrings
+dx
+dy
+endBounds
+endColor
+endEdges
+endMatrix
+endRatio
+endWidth
+engine
+engineList
+exception
+exceptionalMC
+filesize
+fillPaths
+fillStyle0
+fillStyle1
+fillStyles
+findChild
+finished
+firstTime
+flickAssign
+fontAdvanceTable
+fontAscent
+fontDescent
+fontId
+fontLeading
+frame
+frameActionMap
+frameBornIdList
+frameCount
+frameDeadIdList
+frameIdList
+frameIdModifiedMap
+frameIdPlacementMap
+frameLabelMap
+frameName
+frameNo
+frameRate
+frameSize
+framesLoaded
+generateImageInfo
+generateRenderItems
+getBounds
+getInstance
+getMatrix
+getMovieClipAndTextFromSyntax
+getMovieClipFromTargetName
+getPositionFromEvent
+getTransformFromRoot
+glyphs
+grad
+gradient
+handleButton
+header
+headerCompleted
+idCounter
+idInfo
+idList
+idModifiedMap
+idPlacementMap
+idleToOverDown
+idleToOverUp
+imageCount
+imageMap
+indent
+index
+inflate
+init
+initProperties
+initXY
+initialText
+initialize
+instanceNum
+interpolationMode
+isButton
+isChildrenModifiedSince
+isCloned
+isDeleted
+isDisplayed
+isHit
+isKeyDown
+isLocked
+isModifiedSince
+isNativeAndroidBrowser
+isPlaying
+isTouch
+isf
+jpegData
+jpegTables
+jsFunc
+json
+key
+keyDownMap
+keyPress
+keyValue
+label
+lastModified
+lastRenderedFrameCount
+lastRenderedItems
+lastTick
+lastXY
+layer
+layerIdMap
+leading
+leftMargin
+len
+lightning
+linePaths
+lineStyle
+lineStyles
+list
+listup
+load
+loadCompleted
+loadTargetFlag
+loadVariablesFlag
+loadedBytes
+loadedImageCount
+loader
+marginPaths
+matrix
+maxLength
+mc
+mcInfo
+mcInfoLibrary
+mcInfoUpdateCallback
+memberNo
+modified
+mouseDown
+mouseRelease
+move
+newName
+next
+nextOffset
+offset
+ontouch
+onupdate
+option
+originalId
+originalMC
+outDownToIdle
+outDownToOverDown
+output
+overDownToIdle
+overDownToOutDown
+overDownToOverUp
+overUpToIdle
+overUpToOverDown
+ownerMC
+parent
+parsedByte
+path
+pc
+placement
+preloadCache
+press
+prev
+privilegeActionList
+profileFunction
+profilerStart
+progress
+properties
+queryParams
+ratio
+readyFunc
+records
+reg
+release
+removeChildMC
+removeEngine
+removeObject
+removeSprite
+render
+renderer
+report
+responseArray
+ret
+rgbCanvas
+rgbCtx
+rightMargin
+root
+rootMC
+rootScale
+rootTransform
+roundMatrix
+run
+running
+sceneBias
+sceneBiasFlag
+self
+sendKey
+sendVarsMethod
+setFrame
+setPropertiesFromMatrix
+setProperty
+setRotation
+setTouchXY
+setXScale
+setYScale
+shapeTable
+shapes
+showReport
+signature
+size
+skipCount
+sourceMC
+sourceSyntax
+splitString
+spreadMode
+stack
+stackFrame
+stackLen
+startBounds
+startColor
+startEdges
+startMatrix
+startRatio
+startTime
+startWidth
+started
+stateDown
+stateHitTest
+stateOver
+stateUp
+str
+syntax
+tagList
+tags
+target
+targetMC
+targetName
+targetString
+targetSyntax
+text
+tick
+timelineList
+timelinePos
+total
+touch
+touchAction
+touchEnd
+touchStart
+touchXY
+transformImageColor
+twHeight
+twWidth
+type
+updateCallback
+url
+urlString
+useOutlines
+values
+variableName
+variables
+vars
+version
+vm
+vname
+wordWrap
+working
+x1
+x2
+xhr
+y1
+y2
+zlibInflate

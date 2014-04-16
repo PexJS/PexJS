@@ -1,0 +1,15 @@
+# ignore output directory
+output/
+node_modules/
+third_party/
+Dropbox/
+release/
+target/*.swf
+target/*.html
+target/option.json
+build/tools/parse_swf
+build/tools/parse_swf.js
+.DS_Store
+*~
+*.bak
+*.swp

@@ -66,3 +66,13 @@ var createDataStoreFromObject = function(obj, imageMap, onLoad) {
 
 	return dataStore;
 };
+
+var defineGetter = (function() {
+	return (Object.defineProperty && !Object.prototype.__defineGetter__)
+				? function(obj, name, func) {
+					Object.defineProperty(obj, name, { configurable: true, get: func });
+				}
+				: function(obj, name, func) {
+					obj.__defineGetter__(name, func);
+				}
+})();

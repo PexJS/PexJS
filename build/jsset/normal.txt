@@ -9,7 +9,6 @@ movieclip.js
 movieclipinfo.js
 vm.js
 api.js
-profile.js
 touch.js
 renderer/util_render.js
 renderer/cache_controller.js

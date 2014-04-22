@@ -30,12 +30,16 @@ Loader.prototype.load = function(src, callback) {
 	
 	if(!this.option.swfBinary) {
 		var xhr = new XMLHttpRequest();
-		var isTypedArraySupported = window.DataView;
+		var isTypedArrayUint8Supported = window.DataView && window.DataView.prototype.getUint8;
+		var isXhrArrayBufferSupported = false;
 		xhr.open("GET", src);
-		if(isTypedArraySupported) {
-			// TypedArray supported
+		if(isTypedArrayUint8Supported && 'responseType' in xhr) { // TypedArray supported
 			xhr.responseType = 'arraybuffer';
-		} else {
+			if (xhr.responseType === 'arraybuffer') {
+				isXhrArrayBufferSupported = true;
+			}
+		}
+		if (!isXhrArrayBufferSupported) {
 			xhr.overrideMimeType('text/plain; charset=x-user-defined'); // binary
 		}
 		xhr.onreadystatechange = (function(that) {
@@ -47,7 +51,7 @@ Loader.prototype.load = function(src, callback) {
 				}
 				if(xhr.readyState >= 3) {
 					var len = 0;
-					if(isTypedArraySupported) {
+					if(isTypedArrayUint8Supported && isXhrArrayBufferSupported) {
 						if(xhr.response) {
 							var dataView = new DataView(xhr.response);
 							len = xhr.response.byteLength;

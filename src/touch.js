@@ -32,9 +32,9 @@ var _Touch = function(engine) {
 			that.keyDown(e.keyCode);
 		}, false);
 	
-		if(!("ontouchstart" in document.body) && !("onpointerdown" in document.body)) {
+		if(!("ontouchstart" in document.body)) {
 			engine.option.debug && EngineLogD("PC browser mode detected");
-			this.addListener(engine.container, "mousedown", function (e) {
+			this.addListener(engine.container, "mousedown", function(e) {
 				that.touchStart.call(that, e);
 				e.preventDefault();
 			}, false);
@@ -46,33 +46,17 @@ var _Touch = function(engine) {
 				}
 			}, false);
 		}
-
-		if("ontouchstart" in document.body) {
-			this.addListener(engine.container, "touchstart", function(e) {
-				that.touchStart.call(that, e.touches[0]);
+		this.addListener(engine.container, "touchstart", function(e) {
+			that.touchStart.call(that, e.touches[0]);
+			e.preventDefault();
+		}, false);
+		this.addListener(document, "touchend", function(e) {
+			that.mouseRelease = {x: that.currentXY.x, y: that.currentXY.y};
+			if(that.isTouch) {
+				that.touchEnd.call(that, e);
 				e.preventDefault();
-			}, false);
-			this.addListener(document, "touchend", function(e) {
-				that.mouseRelease = {x: that.currentXY.x, y: that.currentXY.y};
-				if(that.isTouch) {
-					that.touchEnd.call(that, e);
-					e.preventDefault();
-				}
-			}, false);
-		} else {
-			this.addListener(engine.container, "pointerdown", function (e) {
-				that.touchStart.call(that, e);
-				e.preventDefault();
-			}, false);
-
-			this.addListener(document, "pointerup", function (e) {
-				that.mouseRelease = { x: that.currentXY.x, y: that.currentXY.y };
-				if (that.isTouch) {
-					that.touchEnd.call(that, e);
-					e.preventDefault();
-				}
-			}, false);
-		}
+			}
+		}, false);
 	}
 };
 

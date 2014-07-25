@@ -423,7 +423,7 @@ var createActionFunction = function(actions, debug) {
 		case ActionDefine.TypeActionFSCommand2:
 			body += "var size=stack.pop();var stackLen=stack.length;/**/";
 			body += "if(stack[stackLen-1]=='JavaScript'){/**/";
-			body += "var args=[];var jsFunc=eval(stack[stackLen-2]);stack.length-=2;var len=size-2;for(var i=0;i<len;i++){args[i]=stack.pop();}jsFunc.apply(null,args);stack[stack.length]=0;/**/";
+			body += "var args=[];var jsFuncName = stack[stackLen-2];var jsFunc=eval(jsFuncName);if(typeof jsFunc!=='function'){EngineLogW('Function \"'+jsFuncName+'\" does not exist in the global');stack.length-=size;stack[stack.length]=-1;}else{stack.length-=2;var len=size-2;for(var i=0;i<len;i++){args[i]=stack.pop();}jsFunc.apply(null,args);stack[stack.length]=0;}/**/";
 			body += "}else{stack.length-=size;stack[stack.length]=-1;}/**/";
 			break;
 		case ActionDefine.TypeActionTrace:
@@ -746,8 +746,24 @@ var createRawActionFunction = function(actions, debug) {
 			case ActionDefine.TypeActionFSCommand2:
 				var size=stack.pop();var stackLen=stack.length;
 				if(stack[stackLen-1]=='JavaScript'){
-				var args=[];var jsFunc=eval(stack[stackLen-2]);stack.length-=2;var argc=size-2;for(var j=0;j<argc;j++){args[j]=stack.pop();}jsFunc.apply(null,args);stack[stack.length]=0;
-				}else{stack.length-=size;stack[stack.length]=-1;}
+					var args=[];
+					var jsFuncName = stack[stackLen-2];
+					var jsFunc=eval(jsFuncName);
+					if(typeof jsFunc !== 'function'){
+						EngineLogW('Function "'+jsFuncName+'" does not exist in the global');
+						stack.length-=size;stack[stack.length]=-1;
+						break;
+					}
+					stack.length-=2;
+					var argc=size-2;
+					for(var j=0;j<argc;j++){
+						args[j]=stack.pop();
+					}
+					jsFunc.apply(null,args);
+					stack[stack.length]=0;
+				}else{
+					stack.length-=size;stack[stack.length]=-1;
+				}
 				break;
 			case ActionDefine.TypeActionTrace:
 				debug? EngineLogD("Trace: "+stack.pop()): stack.pop();

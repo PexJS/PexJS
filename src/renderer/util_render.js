@@ -246,6 +246,135 @@ var cacheTransformImageColor = function(cacheController) {
 	}
 };
 
+var transformImageColorUsingBlendMode = function(cxformList, img) {
+	// return if the image has not been drawn yet
+	if(!img.width) {
+		return img;
+	}
+
+	var len = cxformList.length;
+	if(!len) {
+		return img;
+	}
+
+	var w = img.width;
+	var h = img.height;
+
+	var output = transformImageColor.output || (transformImageColor.output = CacheController.getFreeCanvas());
+	output.width = w;
+	output.height = h;
+	var octx = output.getContext("2d");
+
+	if(cxformList.length === 1) {
+		var cxform = cxformList[0];
+		if(cxform[0] === 256 && cxform[1] === 256 && cxform[2] === 256 && cxform[4] === 0 && cxform[5] === 0 && cxform[6] === 0) {
+			octx.globalAlpha = cxform[3] / 256;
+			octx.drawImage(img, 0, 0);
+			// Ignore cxform[7] same as original transformImageColor for the performance
+			// (I think this is a bug)
+			return output;
+		}
+	}
+	octx.drawImage(img, 0, 0);
+
+	// Remove transparency to process RGB channel and alpha channel separately
+	// (blend-mode seems to remove transparency)
+	octx.globalCompositeOperation = "multiply";
+	octx.fillStyle = "rgba(255,255,255,1)";
+	octx.fillRect(0, 0, w, h);
+
+	var alphaCanvas = transformImageColor.alphaCanvas || (transformImageColor.alphaCanvas = CacheController.getFreeCanvas());
+	alphaCanvas.width = w;
+	alphaCanvas.height = h;
+	var actx = alphaCanvas.getContext("2d");
+	actx.drawImage(img, 0, 0);
+	actx.globalCompositeOperation = "source-atop";
+	actx.fillStyle = "rgba(255,255,255,1)";
+	actx.fillRect(0, 0, w, h);
+
+	for(var j = len - 1; j >= 0; j--) {
+		var cxform = cxformList[j];
+
+		// Multiply colors
+		var rgbcolors = [];
+		var colorChanged = false;
+		for(var colorIndex = 0; colorIndex < 3; colorIndex++) {
+			if(cxform[colorIndex] != 256) {
+				colorChanged = true;
+			}
+			rgbcolors.push(cxform[colorIndex] / 256 * 255 | 0);
+		}
+		if(colorChanged) {
+			octx.globalCompositeOperation = "multiply";
+			octx.fillStyle = "rgb(" + rgbcolors.join() + ")";
+			octx.fillRect(0, 0, w, h);
+		}
+
+		// Add colors
+		var addedColors = [];
+		var hasAdded = false;
+		var subtractedColors = [];
+		var hasSubtracted = false;
+		for(var colorIndex = 4; colorIndex < 7; colorIndex++) {
+			var colorVal = cxform[colorIndex];
+			if(colorVal === 0) {
+				addedColors.push(0);
+				subtractedColors.push(0);
+			} else if(colorVal > 0) {
+				addedColors.push(colorVal);
+				subtractedColors.push(0);
+				hasAdded = true;
+			} else {
+				addedColors.push(0);
+				subtractedColors.push(-colorVal);
+				hasSubtracted = true;
+			}
+		}
+
+		if(hasAdded) {
+			octx.globalCompositeOperation = "lighter";
+			octx.fillStyle = "rgba(" + addedColors.join() + ",1)";
+			octx.fillRect(0, 0, w, h);
+		}
+		if(hasSubtracted) {
+			octx.globalCompositeOperation = "difference";
+			octx.fillStyle = "rgba(255,255,255,1)";
+			octx.fillRect(0, 0, w, h);
+
+			octx.globalCompositeOperation = "lighter";
+			octx.fillStyle = "rgba(" + subtractedColors.join() + ",1)";
+			octx.fillRect(0, 0, w, h);
+
+			octx.globalCompositeOperation = "difference";
+			octx.fillStyle = "rgba(255,255,255,1)";
+			octx.fillRect(0, 0, w, h);
+		}
+
+		// Transform alpha
+		if(cxform[3] < 256) {
+			actx.globalCompositeOperation = "destination-in";
+			actx.globalAlpha = cxform[3] / 256;
+			actx.fillRect(0, 0, w, h);
+		}
+		if(cxform[7]) {
+			// maybe work well but not supported
+			// (the case where cxform[7] is a negative value is not supported)
+			if(cxform[7] > 0) {
+				actx.globalCompositeOperation = "lighter";
+				actx.globalAlpha = cxform[7] / 255; // cxform[7] == addAlpha
+				actx.fillRect(0, 0, w, h);
+			}
+			EngineLogW("[transformImageColor] addAlpha detected. not support");
+		}
+	}
+
+	// alpha mask
+	octx.globalCompositeOperation = "destination-in";
+	octx.globalAlpha = 1;
+	octx.drawImage(alphaCanvas, 0, 0);
+	return output;
+};
+
 var transformImageColor = (function() {
 	// don't define `splitRegion` not to call a function for the performance if not required
 	// cf. http://jsperf.com/call-a-function-vs-assign-a-return-value-directly
@@ -308,6 +437,17 @@ var transformImageColor = (function() {
 			}
 		}
 	};
+
+	var tmpCanvas = document.createElement("canvas");
+	tmpCanvas.width = tmpCanvas.height = 1;
+	var tmpCtx = tmpCanvas.getContext("2d");
+	tmpCtx.globalCompositeOperation = "difference";
+	if(tmpCtx.globalCompositeOperation === "difference") {
+		tmpCtx.globalCompositeOperation = "multiply";
+		if(tmpCtx.globalCompositeOperation === "multiply") {
+			return transformImageColorUsingBlendMode;
+		}
+	}
 
 	return function(cxformList, img) {
 		// return if the image has not been drawn yet

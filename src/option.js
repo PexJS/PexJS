@@ -40,5 +40,6 @@ var defaultOption = {
 	enableStyleText: false,
 	_enableWorkaroundForUnicolor: false,  // experimental
 	colorLevels: 16,
-	swfBinary: null
+	swfBinary: null,
+	forceDisableBlendMode: false // experimental
 };

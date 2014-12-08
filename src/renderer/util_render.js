@@ -421,6 +421,9 @@ var overrideTransformImageColorFunction = function(forceDisableBlendMode, verbos
 			EngineLogW("overrideTransformImageColorFunction");
 		}
 	}
+
+	// hollowing
+	overrideTransformImageColorFunction = function() {};
 };
 
 var transformImageColor = (function() {

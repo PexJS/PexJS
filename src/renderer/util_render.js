@@ -433,6 +433,210 @@ var transformImageColor = (function() {
 	};
 })();
 
+/** check the impact of getting rid of globalCompositeOperation:darker {{{ **/
+var _transformImageColorWithDarkerDisabled = (function() {
+	var splitRegion = null;
+
+	var colors = ["#ff0000", "#00ff00", "#0000ff"];
+	var applyColor = function(ctx, cxformList, width, height, colorIndex, color) {
+		for(var j = cxformList.length - 1; j >= 0; j--) {
+			var cxform = cxformList[j];
+			if(cxform[colorIndex] != 256) {
+				ctx.globalCompositeOperation = "source-over";
+				ctx.fillStyle = "rgb(0,0,0)";
+				ctx.globalAlpha = 1 - cxform[colorIndex] / 256; // mul
+				ctx.fillRect(0, 0, width, height);
+			}
+
+			if(cxform[colorIndex + 4] != 0) {
+				var alpha = cxform[colorIndex + 4] / 255; // add
+				if(alpha < 0) {
+					ctx.globalCompositeOperation = "deprecated";
+					ctx.fillStyle = "rgb(0,0,0)";
+					alpha = -alpha;
+				} else {
+					ctx.globalCompositeOperation = "lighter";
+					ctx.fillStyle = color;
+				}
+				ctx.globalAlpha = alpha;
+				ctx.fillRect(0, 0, width, height);
+			}
+		}
+	};
+
+	return function(cxformList, img) {
+		// return if the image has not been drawn yet
+		if(!img.width) {
+			return img;
+		}
+		
+		var len = cxformList.length;
+		if(!len) {
+			return img;
+		}
+		var w = img.width;
+		var h = img.height;
+		
+		// var output = transformImageColor.output || (transformImageColor.output = CacheController.getFreeCanvas());
+		var output = document.createElement('canvas');
+		output.width = w;
+		output.height = h;
+		var octx = output.getContext("2d");
+
+		if(cxformList.length == 1) {
+			var cxform = cxformList[0];
+			if(cxform[0] == 256 && cxform[1] == 256 && cxform[2] == 256 && cxform[4] == 0 && cxform[5] == 0 && cxform[6] == 0) {
+				octx.globalAlpha = cxform[3]/256;
+				octx.drawImage(img, 0, 0);
+				return output;
+			}
+		}
+		
+		// create alpha
+		// var alphaCanvas = transformImageColor.alphaCanvas || (transformImageColor.alphaCanvas = CacheController.getFreeCanvas());
+		var alphaCanvas = document.createElement('canvas');
+		alphaCanvas.width = w;
+		alphaCanvas.height = h;
+		
+		var actx = alphaCanvas.getContext("2d");
+		actx.drawImage(img, 0, 0);
+		actx.globalCompositeOperation = "source-atop";
+		actx.fillStyle = "rgba(255,255,255,1)";
+		actx.fillRect(0, 0, w, h);
+		
+		// alpha transform
+		for(var j = len - 1; j >= 0; j--) {
+			var cxform = cxformList[j];
+			actx.globalCompositeOperation = "destination-in";
+			actx.globalAlpha = Math.min(Math.max(0, cxform[3] / 256), 1); // cxform[3] === mulAlpha
+			actx.fillRect(0, 0, w, h);
+
+			if(cxform[7]) {
+				actx.globalCompositeOperation = "lighter"; // wrong
+				actx.fillStyle = "rgba(255,255,255,1)";
+				actx.globalAlpha = cxform[7] / 255; // cxform[7] == addAlpha
+				actx.fillRect(0, 0, w, h);
+				EngineLogW("[transformImageColor] addAlpha detected. not support");
+				// maybe work well but not supported
+			}
+		}
+		
+		var isGlay = true;
+		for(var j = len - 1; j >= 0; j--) {
+			var cxform = cxformList[j];
+			var mul = cxform[0];
+			var add = cxform[4];
+			if(mul != cxform[1] || mul != cxform[2] || add != cxform[5] || add != cxform[6]) {
+				isGlay = false;
+				break;
+			}
+		}
+		
+		var imageRegions = (splitRegion && splitRegion(w, h)) || [[0, 0, w, h]];
+		if(isGlay) {
+			var color = "rgb(255,255,255)";
+			if(imageRegions.length === 1) {
+				octx.drawImage(img, 0, 0);
+				applyColor(octx, cxformList, w, h, 0, color);
+			} else {
+				var regionCanvas = transformImageColor.regionCanvas || (transformImageColor.regionCanvas = CacheController.getFreeCanvas());
+				var rctx = regionCanvas.getContext("2d");
+				for(var i = imageRegions.length - 1; i >= 0; i--) {
+					var region = imageRegions[i];
+					var rx = region[0];
+					var ry = region[1];
+					var rw = regionCanvas.width = region[2];
+					var rh = regionCanvas.height = region[3];
+					rctx.drawImage(img, rx, ry, rw, rh, 0, 0, rw, rh);
+					applyColor(rctx, cxformList, rw, rh, 0, color);
+					octx.drawImage(regionCanvas, rx, ry);
+				}
+			}
+		} else {
+			var rgbctx = transformImageColor.rgbCtx || (transformImageColor.rgbCtx = []);
+			var rgbCanvas = transformImageColor.rgbCanvas || (transformImageColor.rgbCanvas = []);
+			for(var regionIndex = imageRegions.length - 1; regionIndex >= 0; regionIndex--) {
+				var region = imageRegions[regionIndex];
+				var rx = region[0];
+				var ry = region[1];
+				var rw = region[2];
+				var rh = region[3];
+				// create rgb
+				for(var i = 0; i < 3; i++) {
+					var cCanvas = rgbCanvas[i] || (rgbCanvas[i] = CacheController.getFreeCanvas());
+					cCanvas.width = rw;
+					cCanvas.height = rh;
+					var cctx = rgbctx[i] || (rgbctx[i] = cCanvas.getContext("2d"));
+					cctx.drawImage(img, rx, ry, rw, rh, 0, 0, rw, rh);
+					cctx.globalCompositeOperation = "deprecated";
+					cctx.fillStyle = colors[i];
+					cctx.fillRect(0, 0, rw, rh);
+				}
+
+				// rgb transform
+				octx.globalCompositeOperation = "lighter";
+				for(var i = 0; i < 3; i++) {
+					applyColor(rgbctx[i], cxformList, rw, rh, i, colors[i]);
+					octx.drawImage(rgbCanvas[i], rx, ry);
+				}
+			}
+		}
+		
+		// alpha mask
+		octx.globalCompositeOperation = "destination-in";
+		octx.globalAlpha = 1;
+		octx.drawImage(alphaCanvas, 0, 0);
+		return output;
+	};
+})();
+
+transformImageColor = (function() {
+	function warnDeprecatedTransformImageColor(expected, actual) {
+		var display = document.querySelector('#debuginfo') || document.body;
+		if (display) {
+			console.warn("Deprecated transformImageColor is invoked. (expected/actual) :", expected, actual);
+			var box = document.createElement('div');
+			box.appendChild(document.createElement('hr'));
+			box.appendChild(_bakeCanvas(expected, 'border:solid 1px green;'));
+			box.appendChild(_bakeCanvas(actual, 'border:solid 1px red;'));
+			display.appendChild(box);
+		}
+		else {
+			console.warn(
+		"Deprecated transformImageColor is invoked. (expected, actual, width/height) :", 
+		expected, actual, [expected.width, expected.height].join('/')
+			);
+		}
+	}
+	function _bakeCanvas(src, style) {
+		var w = src.width, h = src.height;
+		var canvas = document.createElement('canvas');
+		canvas.width = w;
+		canvas.height = h;
+		canvas.getContext('2d').putImageData(src.getContext('2d').getImageData(0, 0, w, h), 0, 0);
+		style && canvas.setAttribute('style', style);
+		return canvas;
+	}
+
+	var _darkerEnabled = transformImageColor;
+	return function(cxformList, img) {
+		if(!img.width) {
+			return img;
+		}
+		var len = cxformList.length;
+		if(!len) {
+			return img;
+		}
+		var expected = _darkerEnabled.apply(null, arguments);
+		var actual   = _transformImageColorWithDarkerDisabled.apply(null, arguments);
+		warnDeprecatedTransformImageColor(expected, actual);
+
+		return actual;
+	};
+})();
+/** }}} end **/
+
+
 var splitString = function(targetString, maxLineWidth) {
 	targetString = targetString.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
 

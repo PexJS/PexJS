@@ -591,8 +591,19 @@ var _transformImageColorWithDarkerDisabled = (function() {
 })();
 
 transformImageColor = (function() {
+
 	function warnDeprecatedTransformImageColor(expected, actual) {
-		var display = document.querySelector('#debuginfo') || document.body;
+		var display = document.querySelector('#swf-darker-info');
+		if (! display) {
+			display = document.createElement('div');
+			display.setAttribute('id', 'swf-darker-info');
+			display.setAttribute('style', [
+				'z-index: 999999; text-align:center; font-weight:bold;', 
+				'color:white; background-color:red; width:100%; position:absolute; bottom:0px; height:20px;'
+			].join(' '));
+			display.innerText='Corrupted images has been detected';
+			document.body.appendChild(display);
+		}
 		if (display) {
 			console.warn("Deprecated transformImageColor is invoked. (expected/actual) :", expected, actual);
 			var box = document.createElement('div');
@@ -617,6 +628,20 @@ transformImageColor = (function() {
 		style && canvas.setAttribute('style', style);
 		return canvas;
 	}
+	function _isMatchedByPixels(a, b) {
+		var ctxa = a.getContext('2d'), ctxb = b.getContext('2d');
+		var w = a.width, h = a.height;
+		for (var y = 0; y < h; y++) {
+			var adat = ctxa.getImageData(0, y, w, 1).data;
+			var bdat = ctxb.getImageData(0, y, w, 1).data;
+			for (var i = 0; i < adat.length; i++) {
+				if (adat[i] !== bdat[i]) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 
 	var _darkerEnabled = transformImageColor;
 	return function(cxformList, img) {
@@ -629,7 +654,9 @@ transformImageColor = (function() {
 		}
 		var expected = _darkerEnabled.apply(null, arguments);
 		var actual   = _transformImageColorWithDarkerDisabled.apply(null, arguments);
-		warnDeprecatedTransformImageColor(expected, actual);
+		if (! _isMatchedByPixels(expected, actual)) {
+			warnDeprecatedTransformImageColor(expected, actual);
+		}
 
 		return actual;
 	};

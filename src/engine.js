@@ -93,6 +93,10 @@ Engine.prototype.initialize = function() {
 	this.renderCount = 0;
 	// don't play if option is set
 	this.running = !option.stopOnStart;
+
+	// get rid of "darker" in globalCompositeOperation
+	// https://code.google.com/p/chromium/issues/detail?id=136830
+	overrideTransformImageColorFunction(option.forceDisableBlendMode, option.debug);
 };
 
 Engine.prototype.dataStoreProgress = function() {

@@ -19,7 +19,7 @@ var setProperty = function(obj, name, func, delayEval) {
 		return;
 	}
 	
-	obj.__defineGetter__(name, function(){
+	defineGetter(obj, name, function() {
 		delete this[name];
 		return this[name] = func();
 	});
@@ -37,7 +37,7 @@ var setProperties = function(obj, func, attributes, delayEval) {
 	var len = attributes.length;
 	for(var i = 0; i < len; i++) {
 		// set "FIRST" property
-		obj.__defineGetter__(attributes[i],
+		defineGetter(obj, attributes[i],
 			function(ownKey) {
 				return function() {
 					var result = func();

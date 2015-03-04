@@ -302,7 +302,7 @@ var ImageManager = {
 // use delayed evaluation just in case,
 // because Document#createElement() might be executed
 // before DOM is not initialized
-ImageManager.__defineGetter__("usePremultipliedAlpha", function() {
+defineGetter(ImageManager, "usePremultipliedAlpha", function () {
 	delete this.usePremultipliedAlpha;
 
 	var canvas = document.createElement("canvas");

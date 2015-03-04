@@ -30,8 +30,18 @@ Loader.prototype.load = function(src, callback) {
 	
 	if(!this.option.swfBinary) {
 		var xhr = new XMLHttpRequest();
+		var isTypedArrayUint8Supported = window.DataView && window.DataView.prototype.getUint8;
+		var isXhrArrayBufferSupported = false;
 		xhr.open("GET", src);
-		xhr.overrideMimeType('text/plain; charset=x-user-defined'); // binary
+		if(isTypedArrayUint8Supported && 'responseType' in xhr) { // TypedArray supported
+			xhr.responseType = 'arraybuffer';
+			if (xhr.responseType === 'arraybuffer') {
+				isXhrArrayBufferSupported = true;
+			}
+		}
+		if (!isXhrArrayBufferSupported) {
+			xhr.overrideMimeType('text/plain; charset=x-user-defined'); // binary
+		}
 		xhr.onreadystatechange = (function(that) {
 			return function() {
 				if(xhr.status != 0 && xhr.status != 200) {
@@ -40,10 +50,21 @@ Loader.prototype.load = function(src, callback) {
 					return;
 				}
 				if(xhr.readyState >= 3) {
-					var rt = xhr.responseText;
-					var len = rt.length;
-					for(var i = that.loadedBytes; i < len; i++) {
-						that.binary[i] = rt.charCodeAt(i) & 0xFF; // bitmask needed
+					var len = 0;
+					if(isTypedArrayUint8Supported && isXhrArrayBufferSupported) {
+						if(xhr.response) {
+							var dataView = new DataView(xhr.response);
+							len = xhr.response.byteLength;
+							for(var i = that.loadedBytes; i < len; i++) {
+								that.binary[i] = dataView.getUint8(i);
+							}
+						}
+					} else {
+						var rt = xhr.responseText;
+						len = rt.length;
+						for(var i = that.loadedBytes; i < len; i++) {
+							that.binary[i] = rt.charCodeAt(i) & 0xFF; // bitmask needed
+						}
 					}
 					that.loadedBytes = len;
 					that.completed = (xhr.readyState == 4);

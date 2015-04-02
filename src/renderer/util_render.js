@@ -13,6 +13,14 @@
 // limitations under the License.
 
 
+var darkenOperationMode = (function() {
+   var ctx = document.createElement("canvas").getContext("2d"); 
+   ctx.globalCompositeOperation = "darker";
+   // darker will be deprecated as it doesn't comply compositing spec of Canvas
+   return (ctx.globalCompositeOperation !== "darker") ? "darken" : "darker";
+})();
+EngineLogD("running on", darkenOperationMode);
+
 var revTransform = function(t) {
 	var detT = (t[0] * t[3] - t[1] * t[2]);
 	if(detT == 0) {
@@ -296,7 +304,7 @@ var transformImageColor = (function() {
 			if(cxform[colorIndex + 4] != 0) {
 				var alpha = cxform[colorIndex + 4] / 255; // add
 				if(alpha < 0) {
-					ctx.globalCompositeOperation = "darker";
+					ctx.globalCompositeOperation = darkenOperationMode;
 					ctx.fillStyle = "rgb(0,0,0)";
 					alpha = -alpha;
 				} else {
@@ -411,7 +419,7 @@ var transformImageColor = (function() {
 					cCanvas.height = rh;
 					var cctx = rgbctx[i] || (rgbctx[i] = cCanvas.getContext("2d"));
 					cctx.drawImage(img, rx, ry, rw, rh, 0, 0, rw, rh);
-					cctx.globalCompositeOperation = "darker";
+					cctx.globalCompositeOperation = darkenOperationMode;
 					cctx.fillStyle = colors[i];
 					cctx.fillRect(0, 0, rw, rh);
 				}

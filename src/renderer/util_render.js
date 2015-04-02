@@ -592,6 +592,17 @@ var _transformImageColorWithDarkerDisabled = (function() {
 
 transformImageColor = (function() {
 
+    // Alert if darker has already been disabled
+    (function() {
+        var ctx = document.createElement('canvas').getContext('2d');
+        ctx.globalCompositeOperation = 'darker';
+        if (ctx.globalCompositeOperation !== 'darker') {
+            var msg = 'The "darker" value for globalCompositeOperation has already been disabled on this browser. This checker is no more useful. If you want to make transforming image color function correct, try Pex 1.2.0 or later which support new blending-mode instead of "darker" composition mode.';
+            console.warn(msg);
+            alert(msg);
+        }
+    })();
+
 	function warnDeprecatedTransformImageColor(expected, actual) {
 		var display = document.querySelector('#swf-darker-info');
 		if (! display) {

@@ -34,6 +34,7 @@ var uglifyDefaultOptions = {
 	ignore_eval: true,
 	mangle: true,
 	reserved_names: ["develop"],
+	property_maps: ["tickManually:tickManually"], // to be concatnated with mappingFile
 	codegen_options: {
 		ascii_only: true,
 		remove_statements: {
@@ -396,6 +397,9 @@ task("obfuscate", [], function() {
 
 	var options = clone(uglifyDefaultOptions);
 	options.tokenfile = tokenFile;
+	if (options.property_maps) {
+		mapping = mapping.concat(options.property_maps);
+	}
 	options.property_maps = mapping;
 	var minjs = pex.replace(/js$/, "min.js");
 	var ret = uglify.utils.squeeze_it(js, options);

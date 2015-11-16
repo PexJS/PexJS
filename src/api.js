@@ -511,3 +511,7 @@ API.prototype.showFrame = function(time) {
 	
 	return this.engine.rootMC.properties["_currentframe"];
 };
+
+API.prototype.tick = function(time) {
+	return this.engine.tick(time || Date.now());
+};

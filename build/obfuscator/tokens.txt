@@ -692,7 +692,6 @@ targetName
 targetString
 targetSyntax
 text
-tick
 timelineList
 timelinePos
 total

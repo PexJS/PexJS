@@ -23,27 +23,30 @@ var Master = function () {
 	// debug: fps
 	this.frame = 0;
 	this.lastTick = 0;
-	// start tick
-	var that = this;
-	(function tick() {
-		setTimeout(tick, 1000 / 60);
-		var now = Date.now();
-		var ret = false;
-		for(var i = 0; i < that.engineList.length; i++) {
-			ret = that.engineList[i].tick(now) || ret;
-		}
-		
-		// fps 
-		ret && that.frame++;
-		var last = that.lastTick = that.lastTick || now;
-		if(now - last > 1000) {
-			that.debug && !that.suppressFPS && EngineLogD("fps:" + that.frame * 1000 / (now - last));
-			that.frame = 0;
-			that.lastTick = now;
-		}
-		//setTimeout(tick, 0);
-	})();
+
+	if (! this.constructor.tickManually) {
+		var that = this;
+		(function tick() {
+			setTimeout(tick, 1000 / 60);
+			var now = Date.now();
+			var ret = false;
+			for(var i = 0; i < that.engineList.length; i++) {
+				ret = that.engineList[i].tick(now) || ret;
+			}
+
+			// fps 
+			ret && that.frame++;
+			var last = that.lastTick = that.lastTick || now;
+			if(now - last > 1000) {
+				that.debug && !that.suppressFPS && EngineLogD("fps:" + that.frame * 1000 / (now - last));
+				that.frame = 0;
+				that.lastTick = now;
+			}
+		})();
+	}
 };
+
+Master.tickManually = false;
 
 Master.getInstance = function() {
 	var ctor = Master;
@@ -126,6 +129,10 @@ var Pex = function(src, container, option) {
 	}
 	master.suppressFPS |= option.suppressLog.fps;
 	return master.load(src, container, option);
+};
+
+Pex.tickManually = function() {
+	Master.tickManually = true;
 };
 
 // publish Pex

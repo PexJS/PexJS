@@ -456,7 +456,6 @@ targetName:Mi
 targetString:Ni
 targetSyntax:Oi
 text:Pi
-tick:Qi
 timelineList:Ri
 timelinePos:Si
 total:Ti

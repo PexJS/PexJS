@@ -316,7 +316,7 @@ var TagDefineEditText = function(binary, pos, length, type, delayEval, dataStore
 			p += 2;
 			result.indent = getUI16(binary, p);
 			p += 2;
-			result.leading = getUI16(binary, p);
+			result.leading = getSI16(binary, p);
 			p += 2;
 		}
 		result.variableName = getString(binary, p);

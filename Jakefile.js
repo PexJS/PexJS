@@ -3,7 +3,7 @@ var ejs = require("ejs");
 var path = require("path");
 var util = require("util");
 var exec = require("child_process").exec;
-var uglify = require("./build/tools/UglifyJS/uglify-js");
+var uglify = require("uglify-js");
 
 var http = require("http");
 var url = require("url");
@@ -545,5 +545,5 @@ task("server", [], function() {
 			});
 		});
 	}).listen(8080);
-	console.log("Server started at port 8080");
+	console.log("Server started at port http://localhost:8080");
 });

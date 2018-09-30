@@ -1,17 +1,20 @@
 {
-  "name":        "Pex",
-  "version":     "0.0.1",
+  "name": "Pex",
+  "version": "0.0.1",
   "description": "Post ExGame",
   "author": [
-      {
-        "name":  "Kihira, Takuo",
-        "email": "kihira.takuo@dena.jp"
-      }
+    {
+      "name": "Kihira, Takuo",
+      "email": "kihira.takuo@dena.jp"
+    }
   ],
   "devDependencies": {
     "ejs": "*"
   },
   "engines": {
     "node": ">= 0.6.0"
+  },
+  "dependencies": {
+    "uglify-js": "^3.4.9"
   }
 }
